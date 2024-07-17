@@ -1,6 +1,13 @@
 import 'package:aqs/Colors.dart';
 import 'package:aqs/views/FrameOne_view.dart';
 import 'package:aqs/views/FrameTwo_view.dart';
+import 'package:aqs/views/Home_view.dart';
+import 'package:aqs/views/Statistic_view.dart';
+import 'package:aqs/views/Humidity_view.dart';
+import 'package:aqs/views/Temperature_view.dart';
+import 'package:aqs/views/Co2_view.dart';
+import 'package:aqs/views/Hcho_view.dart';
+import 'package:aqs/views/Tvoc_view.dart';
 import 'package:flutter/material.dart';
 
 class BottomNav extends StatefulWidget {
@@ -17,7 +24,7 @@ class _Material3BottomNavState extends State<BottomNav> {
     const HomePage(),
     const FrameOnePage(),
     const FrameTwoPage(),
-    const StatPage(),
+    StatisticsPage(),
   ];
 
   @override
@@ -73,33 +80,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topCenter,
-      padding: const EdgeInsets.all(20.0), // Adjust padding as needed
-      child: Text(
-        'Hello Mayssa',
-        style: TextStyle(
-          fontSize: 18,
-          color: AppColors.actiaGreen,
-        ),
-      ),
-    );
-  }
-}
-
-class StatPage extends StatelessWidget {
-  const StatPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topCenter,
-      padding: const EdgeInsets.all(20.0), // Adjust padding as needed
-      child: Text(
-        'statistics',
-        style: TextStyle(
-          fontSize: 18,
-          color: AppColors.actiaGreen,
+    return SingleChildScrollView(
+      child: Container(
+        alignment: Alignment.topCenter,
+        padding: const EdgeInsets.all(20.0), // Adjust padding as needed
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Explore the latest values',
+              style: TextStyle(
+                fontSize: 18,
+                color: AppColors.actiaGreen,
+              ),
+            ),
+            SizedBox(
+                height:
+                    20), // Add spacing between the title and the humidity widget
+            HumidityView(),
+            TemperatureView(),
+            Co2View(),
+            HCHOView(),
+            TVOCView(),
+          ],
         ),
       ),
     );

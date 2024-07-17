@@ -22,7 +22,7 @@ class _FrameOnePageState extends State<FrameOnePage> {
   Future<void> fetchData() async {
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.1.221:8080/frame1'));
+          await http.get(Uri.parse('http://192.168.43.223:8080/frame1'));
       if (response.statusCode == 200) {
         List<dynamic> responseData = json.decode(response.body);
         List<Map<String, dynamic>> convertedData = responseData.map((item) {
@@ -43,7 +43,7 @@ class _FrameOnePageState extends State<FrameOnePage> {
   Future<void> deleteFrame(String id) async {
     try {
       final response = await http
-          .delete(Uri.parse('http://192.168.1.221:8080/frame1/delete/$id'));
+          .delete(Uri.parse('http://192.168.43.223:8080/frame1/delete/$id'));
 
       if (response.statusCode == 200) {
         // If successful, update tableData by refetching data
