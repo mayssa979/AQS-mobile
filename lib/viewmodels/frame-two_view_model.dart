@@ -35,14 +35,21 @@ class FrameViewModel extends ChangeNotifier {
     try {
       print('Connecting to WebSocket...');
       channel = WebSocketChannel.connect(Uri.parse(
-          'ws://192.168.43.223:8080/websocket-frame2')); // Replace with your IP address
+          'ws://192.168.43.223:8080/websocket-frame1')); // Replace with your IP address
 
       channel.stream.listen((event) {
         try {
           print('Received data from WebSocket: $event');
-          final newData = Frame.fromJson(jsonDecode(event));
-          lastFrame = newData;
-          notifyListeners();
+
+          if (event is String) {
+            final newData = Frame.fromJson(jsonDecode(event));
+            lastFrame = newData;
+            notifyListeners();
+          } else {
+            // Handle other types if needed (e.g., int, etc.)
+            print(
+                'Received unexpected data type from WebSocket: ${event.runtimeType}');
+          }
         } catch (e) {
           print('Error parsing WebSocket data: $e');
         }

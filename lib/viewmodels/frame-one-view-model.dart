@@ -40,9 +40,16 @@ class FrameViewModel extends ChangeNotifier {
       channel.stream.listen((event) {
         try {
           print('Received data from WebSocket: $event');
-          final newData = FrameOne.fromJson(jsonDecode(event));
-          lastFrame = newData;
-          notifyListeners();
+
+          if (event is String) {
+            final newData = FrameOne.fromJson(jsonDecode(event));
+            lastFrame = newData;
+            notifyListeners();
+          } else {
+            // Handle other types if needed (e.g., int, etc.)
+            print(
+                'Received unexpected data type from WebSocket: ${event.runtimeType}');
+          }
         } catch (e) {
           print('Error parsing WebSocket data: $e');
         }

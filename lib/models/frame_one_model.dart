@@ -8,10 +8,12 @@ class FrameOne {
 
   factory FrameOne.fromJson(Map<String, dynamic> json) {
     return FrameOne(
-      co2: (json['co2'] as num?)?.toInt(),
-      hcho: (json['hcho'] as num?)?.toInt(),
-      tvoc: (json['tvoc'] as num?)?.toInt(),
-      date: DateTime.parse(json['date']),
+      co2: json['co2'],
+      hcho: json['hcho'],
+      tvoc: json['tvoc'],
+      date: json['date'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(json['date'])
+          : null,
     );
   }
 
@@ -20,7 +22,7 @@ class FrameOne {
       'co2': co2,
       'hcho': hcho,
       'tvoc': tvoc,
-      'date': date,
+      'date': date?.millisecondsSinceEpoch,
     };
   }
 }

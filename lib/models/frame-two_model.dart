@@ -11,9 +11,11 @@ class Frame {
 
   factory Frame.fromJson(Map<String, dynamic> json) {
     return Frame(
-      temp: (json['temp'] as num?)?.toInt(),
-      humidity: (json['humidity'] as num?)?.toInt(),
-      date: DateTime.parse(json['date']),
+      temp: json['temp'],
+      humidity: json['humidity'],
+      date: json['date'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(json['date'])
+          : null,
     );
   }
 
@@ -21,7 +23,7 @@ class Frame {
     return {
       'temp': temp,
       'humidity': humidity,
-      'date': date,
+      'date': date?.millisecondsSinceEpoch,
     };
   }
 }

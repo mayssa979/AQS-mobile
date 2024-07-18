@@ -74,35 +74,62 @@ const _navBarItems = [
   ),
 ];
 
-// Placeholder pages for the different sections
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        alignment: Alignment.topCenter,
-        padding: const EdgeInsets.all(20.0), // Adjust padding as needed
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Explore the latest values',
-              style: TextStyle(
-                fontSize: 18,
-                color: AppColors.actiaGreen,
+    return Scaffold(
+      backgroundColor: AppColors.bg, // Grey background for the home page
+      body: SingleChildScrollView(
+        child: Container(
+          alignment: Alignment.topCenter,
+          padding: const EdgeInsets.all(20.0), // Adjust padding as needed
+          child: Column(
+            //  crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Explore the latest values',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: AppColors.actiaGreen,
+                ),
               ),
-            ),
-            SizedBox(
-                height:
-                    20), // Add spacing between the title and the humidity widget
-            HumidityView(),
-            TemperatureView(),
-            Co2View(),
-            HCHOView(),
-            TVOCView(),
-          ],
+              SizedBox(
+                  height:
+                      20), // Add spacing between the title and the container
+              Container(
+                padding: const EdgeInsets.all(15.0),
+                decoration: BoxDecoration(
+                  color: Colors.white, // White background for the container
+                  borderRadius: BorderRadius.circular(10.0), // Rounded corners
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.bg, // Shadow color
+                      spreadRadius: 3,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // Changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    HumidityView(),
+                    SizedBox(
+                        height: 10), // Adjust spacing between widgets as needed
+                    TemperatureView(),
+                    SizedBox(height: 10),
+                    Co2View(),
+                    SizedBox(height: 10),
+                    HCHOView(),
+                    SizedBox(height: 10),
+                    TVOCView(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
