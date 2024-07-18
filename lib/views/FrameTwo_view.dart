@@ -83,6 +83,7 @@ class _FrameOnePageState extends State<FrameTwoPage> {
                       DataColumn(label: Text('ID')),
                       DataColumn(label: Text('Temperature')),
                       DataColumn(label: Text('Humidity')),
+                      DataColumn(label: Text('Date')),
                       DataColumn(label: Text('Action')),
                     ],
                     rows: List<DataRow>.generate(
@@ -92,6 +93,7 @@ class _FrameOnePageState extends State<FrameTwoPage> {
                             Text((index + 1).toString())), // Incremented ID
                         DataCell(Text(tableData[index]['temp'].toString())),
                         DataCell(Text(tableData[index]['humidity'].toString())),
+                        DataCell(Text(tableData[index]['date'].toString())),
                         DataCell(IconButton(
                           icon:
                               Icon(Icons.delete_rounded, color: AppColors.red),

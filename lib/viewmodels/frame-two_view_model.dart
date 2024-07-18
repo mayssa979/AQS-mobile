@@ -17,10 +17,12 @@ class FrameViewModel extends ChangeNotifier {
     try {
       print('Fetching latest frame...');
       final response = await http.get(Uri.parse(
-          'http://192.168.43.223:8080/frame2/latest')); // Replace with your IP address
+          'http://192.168.43.223:8080/frame2/latest')); // Replace with your actual API endpoint
+
       if (response.statusCode == 200) {
         print('Data fetched successfully');
-        lastFrame = Frame.fromJson(jsonDecode(response.body));
+        final jsonData = jsonDecode(response.body);
+        lastFrame = Frame.fromJson(jsonData);
         notifyListeners();
       } else {
         print('Failed to load data: ${response.statusCode}');
@@ -35,7 +37,7 @@ class FrameViewModel extends ChangeNotifier {
     try {
       print('Connecting to WebSocket...');
       channel = WebSocketChannel.connect(Uri.parse(
-          'ws://192.168.43.223:8080/websocket-frame1')); // Replace with your IP address
+          'ws://192.168.43.223:8080/websocket-frame2')); // Replace with your IP address
 
       channel.stream.listen((event) {
         try {

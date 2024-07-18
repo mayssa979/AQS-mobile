@@ -84,6 +84,7 @@ class _FrameOnePageState extends State<FrameOnePage> {
                       DataColumn(label: Text('CO2')),
                       DataColumn(label: Text('TVOC')),
                       DataColumn(label: Text('HCHO')),
+                      DataColumn(label: Text('Date')),
                       DataColumn(label: Text('Action')),
                     ],
                     rows: List<DataRow>.generate(
@@ -94,6 +95,7 @@ class _FrameOnePageState extends State<FrameOnePage> {
                         DataCell(Text(tableData[index]['co2'].toString())),
                         DataCell(Text(tableData[index]['tvoc'].toString())),
                         DataCell(Text(tableData[index]['hcho'].toString())),
+                        DataCell(Text(tableData[index]['date'].toString())),
                         DataCell(IconButton(
                           icon:
                               Icon(Icons.delete_rounded, color: AppColors.red),

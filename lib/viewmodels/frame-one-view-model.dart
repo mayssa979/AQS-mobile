@@ -17,10 +17,12 @@ class FrameViewModel extends ChangeNotifier {
     try {
       print('Fetching latest frame...');
       final response = await http.get(Uri.parse(
-          'http://192.168.43.223:8080/frame1/latest')); // Replace with your IP address
+          'http://192.168.43.223:8080/frame1/latest')); // Replace with your actual API endpoint
+
       if (response.statusCode == 200) {
         print('Data fetched successfully');
-        lastFrame = FrameOne.fromJson(jsonDecode(response.body));
+        final jsonData = jsonDecode(response.body);
+        lastFrame = FrameOne.fromJson(jsonData);
         notifyListeners();
       } else {
         print('Failed to load data: ${response.statusCode}');
