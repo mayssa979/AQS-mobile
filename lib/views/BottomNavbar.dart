@@ -3,6 +3,7 @@ import 'package:aqs/views/FrameOne_view.dart';
 import 'package:aqs/views/FrameTwo_view.dart';
 import 'package:aqs/views/Home_view.dart';
 import 'package:aqs/views/Humidity_view.dart';
+import 'package:aqs/views/Statistics_view.dart';
 import 'package:aqs/views/Temperature_view.dart';
 import 'package:aqs/views/Co2_view.dart';
 import 'package:aqs/views/Hcho_view.dart';
@@ -23,7 +24,7 @@ class _Material3BottomNavState extends State<BottomNav> {
     const HomePage(),
     const FrameOnePage(),
     const FrameTwoPage(),
-    //StatisticsPage(),
+    StatisticsPage()
   ];
 
   @override

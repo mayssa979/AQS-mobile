@@ -1,4 +1,5 @@
 import 'package:aqs/Colors.dart';
+import 'package:aqs/views/AuthenticationService%20.dart';
 import 'package:aqs/views/Home_view.dart';
 import 'package:aqs/views/Signup_view.dart';
 import 'package:flutter/material.dart';
@@ -11,27 +12,29 @@ class SignInPage extends StatelessWidget {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
-        body: Center(
-            child: isSmallScreen
-                ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      _Logo(),
-                      _FormContent(),
-                    ],
-                  )
-                : Container(
-                    padding: const EdgeInsets.all(32.0),
-                    constraints: const BoxConstraints(maxWidth: 800),
-                    child: Row(
-                      children: const [
-                        Expanded(child: _Logo()),
-                        Expanded(
-                          child: Center(child: _FormContent()),
-                        ),
-                      ],
+      body: Center(
+        child: isSmallScreen
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  _Logo(),
+                  _FormContent(),
+                ],
+              )
+            : Container(
+                padding: const EdgeInsets.all(32.0),
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: Row(
+                  children: const [
+                    Expanded(child: _Logo()),
+                    Expanded(
+                      child: Center(child: _FormContent()),
                     ),
-                  )));
+                  ],
+                ),
+              ),
+      ),
+    );
   }
 }
 
@@ -82,6 +85,58 @@ class __FormContentState extends State<_FormContent> {
   bool _rememberMe = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _signIn() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      try {
+        // Use the AuthenticationService to authenticate
+        final authService = AuthenticationService();
+        final response = await authService.authenticate(
+          _emailController.text,
+          _passwordController.text,
+        );
+
+        // Handle the response, e.g., save token and navigate to home
+        if (response.containsKey('access_token') &&
+            response.containsKey('refresh_token')) {
+          // Save tokens securely
+          final accessToken = response['access_token'];
+          final refreshToken = response['refresh_token'];
+          await authService.storeToken(accessToken, refreshToken);
+
+          // Navigate to Home page
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Home()),
+          );
+        } else {
+          _showError('Email or password incorrect! Please verify again.');
+        }
+      } catch (e) {
+        _showError('Email or password incorrect! Please try again');
+      }
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: const Color.fromARGB(255, 247, 4, 4),
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,10 +149,11 @@ class __FormContentState extends State<_FormContent> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
+              controller: _emailController,
               validator: (value) {
-                // add email validation
+                // Add email validation
                 if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
+                  return 'Please enter your email';
                 }
 
                 bool emailValid = RegExp(
@@ -118,9 +174,10 @@ class __FormContentState extends State<_FormContent> {
             ),
             _gap(),
             TextFormField(
+              controller: _passwordController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
+                  return 'Please enter your password';
                 }
 
                 if (value.length < 6) {
@@ -177,14 +234,7 @@ class __FormContentState extends State<_FormContent> {
                         color: AppColors.actiaGreen),
                   ),
                 ),
-                onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Home()),
-                    );
-                  }
-                },
+                onPressed: _signIn,
               ),
             ),
             _gap(),
