@@ -28,9 +28,9 @@ class _StatisticsPageState extends State<StatisticsPage> {
   Future<void> fetchData() async {
     try {
       final response1 =
-          await http.get(Uri.parse('http://192.168.43.223:8080/frame1'));
+          await http.get(Uri.parse('http://192.168.1.118:8080/frame1'));
       final response2 =
-          await http.get(Uri.parse('http://192.168.43.223:8080/frame2'));
+          await http.get(Uri.parse('http://192.168.1.118:8080/frame2'));
       handleViewChange(
           selectedView, jsonDecode(response1.body), jsonDecode(response2.body));
     } catch (error) {

@@ -98,9 +98,8 @@ class __SignUpFormState extends State<_SignUpForm> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   String? _selectedRole; // New variable to hold selected role
-  final RegistrationViewModel _registrationViewModel = RegistrationViewModel(
-      baseUrl:
-          'http://192.168.43.223:8080/api/v1/auth'); // Replace with your actual backend URL
+  final RegistrationViewModel _registrationViewModel =
+      RegistrationViewModel(baseUrl: 'http://192.168.1.118:8080/api/v1/auth');
   @override
   void dispose() {
     _firstNameController.dispose();
@@ -401,7 +400,7 @@ class __SignUpFormState extends State<_SignUpForm> {
                         );
                       } else {
                         // Registration failed
-                        _showError('Registration failed! Please try again');
+                        _showError('This user already exists');
                       }
                     }
                   },

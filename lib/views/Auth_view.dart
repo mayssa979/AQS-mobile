@@ -1,8 +1,11 @@
 import 'package:aqs/Colors.dart';
+import 'package:aqs/models/user_model.dart';
 import 'package:aqs/views/AuthenticationService%20.dart';
 import 'package:aqs/views/Home_view.dart';
 import 'package:aqs/views/Signup_view.dart';
+import 'package:aqs/views/profile_management_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -97,26 +100,26 @@ class __FormContentState extends State<_FormContent> {
 
   Future<void> _signIn() async {
     if (_formKey.currentState?.validate() ?? false) {
-      try {
-        // Use the AuthenticationService to authenticate
-        final authService = AuthenticationService();
-        final response = await authService.authenticate(
-          _emailController.text,
-          _passwordController.text,
-        );
+      final email = _emailController.text;
+      final password = _passwordController.text;
 
-        // Handle the response, e.g., save token and navigate to home
+      final authService = AuthenticationService();
+      try {
+        final response = await authService.authenticate(email, password);
+
         if (response.containsKey('access_token') &&
             response.containsKey('refresh_token')) {
-          // Save tokens securely
           final accessToken = response['access_token'];
           final refreshToken = response['refresh_token'];
           await authService.storeToken(accessToken, refreshToken);
-
-          // Navigate to Home page
+          // Assume login is successful, update UserModel
+          Provider.of<UserModel>(context, listen: false).setEmail(email);
+          // Navigate to Profile page with the email
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const Home()),
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ),
           );
         } else {
           _showError('Email or password incorrect! Please verify again.');
